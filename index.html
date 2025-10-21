@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <style>
-    #PumpkingImage, #Pumpkin {
+    #PumpkingImage, #eyes {
         position: absolute; 
         left: 50%;
         top: 50%;
@@ -16,10 +16,10 @@
 </style>
 <body>
     <img id="PumpkingImage" src="pumpkin.png" width="300px" height="auto">
-    <canvas id="Pumpkin" style="z-index: 2;"></canvas>
+    <canvas id="eyes" style="z-index: 2;"></canvas>
 </body>
 <script>
-    const canvas = document.getElementById('Pumpkin');
+    const canvas = document.getElementById('eyes');
     const content = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
 
@@ -33,7 +33,22 @@
     content.imageSmoothingEnabled = true;
     content.imageSmoothingQuality = 'high';
 
-    x = 'eyes/eye_what.png';
+    const randomEye = {
+    0: 'eye_bored2.png',
+    1: 'eye_haha.png',
+    2: 'eye_hm.png',
+    3: 'eye_mad.png',
+    4: 'eye_normal.png',
+    5: 'eye_really.png',
+    6: 'eye_sad.png',
+    7: 'eye_scared.png',
+    8: 'eye_scared2.png',
+    9: 'eye_verymad.png',
+    10: 'eye_what.png',
+    11: 'eye_woo.png'
+    };
+
+    x = `eyes/${randomEye[Math.floor(Math.random() * 11)]}`;
     const leftEye = new Image();
     leftEye.crossOrigin = 'anonymous';
     leftEye.src = x;
@@ -52,57 +67,5 @@
             }
         }, 10);
     }
-
-    /*
-    // Previos generation of code
-    let render = {
-        0: 'pumpkin.png',
-        1: 'eyes/eye_what.png',
-        2: 'eyes/eye_what.png'
-    }
-
-    function loadImage(src) {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => resolve(img);
-            img.src = src;
-        });
-    }
-
-    Promise.all([
-        loadImage(render[0]),
-        loadImage(render[1]),
-        loadImage(render[2])
-    ]).then(([pumpkin, leftEye, rightEye]) => {
-        content.drawImage(leftEye, 50, canvas.height / 3 / dpr, 81, 101);
-
-        content.save();
-        content.translate(300, 0);
-        content.scale(-1, 1);
-        content.drawImage(rightEye, 50, canvas.height / 3 / dpr, 81, 101);
-        content.restore();
-    });
-
-    // The first generation of code
-    for (let i = 0; i <= 2; i++) {
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.src = `${render[i]}.png`;
-        img.onload = () => {
-            if (i == 1) {
-                content.drawImage(img, (100 * (i - 1)) + 100, canvas.height / 3 / dpr, 81, 101);
-            } else if (i == 2) {
-                content.save();
-                content.translate(300, 0);
-                content.scale(-1, 1);
-                content.drawImage(img, (100 * (i - 1)) + 100, canvas.height / 3 / dpr, 81, 101);
-                content.restore();
-            } else {
-                content.drawImage(img, 0, 0, 300, 256.633);
-            }
-        }
-    }
-    */
 </script>
 </html>
