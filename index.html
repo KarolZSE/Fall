@@ -25,7 +25,7 @@
     const content = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
 
-    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2); //get CSS width
+    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
     let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
 
     canvas.setAttribute('height', style_height * dpr);
@@ -51,6 +51,7 @@
     leftEye.crossOrigin = 'anonymous';
     leftEye.src = x;
 
+
     leftEye.onload = () => {
         content.drawImage(leftEye, 100, canvas.height / 3 / dpr, 162, 202);
         setTimeout(() => {
@@ -67,11 +68,12 @@
         }, 10);
     }
 
-    let OldX = 0;
-    let OldY = 0;
     let lastTime = Date.now();
     let EndOfAnEra = Date.now() + 10000;
     let CountingPixels = 0;
+    let BlackCountAfter = 0;
+    let blackCountStart = 0;
+    let FirstTouch = true;
 
     const radius = 2;
     const size = radius * 2 + 1;
@@ -88,18 +90,19 @@
             const canvasX = x * dpr;
             const canvasY = y * dpr;
 
-            /*
-            if (EndOfAnEra - now <= 0) {
-                console.log(CountingPixels);
-                Glif.style.display = "none";
-                return;
+            if (FirstTouch) {
+                BlackCountStart = CompareBlackPixels();
+                FirstTouch = false;
             }
-                */
+
+            if (EndOfAnEra - now <= 0) {
+                BlackCountAfter = CompareBlackPixels();
+                console.log("There is still " + ((BlackCountAfter / BlackCountStart) * 100) + "% of the pumpkin to be carved out!");
+            }
             
 
             const pixel = content.getImageData(canvasX - radius, canvasY - radius, size, size).data;
             
-            let DarkPixel = false;
             for (let i = 0; i < pixel.length; i += 4) {
                 const r = pixel[i];
                 const g = pixel[i + 1];
@@ -110,15 +113,32 @@
                     CountingPixels += 1;
                     content.fillStyle = "rgb(255, 0, 0)";
                     content.beginPath();
-                    content.arc(x, y, 5, 0, Math.PI * 2);
+                    content.arc(x, y, 10, 0, Math.PI * 2);
                     content.fill();
                     break;
                 }
             }
 
-            OldX = x;
-            OldY = y;
             lastTime = now;
         });
+
+        function CompareBlackPixels() {
+            let blackCount = 0;
+            const ImageData = content.getImageData(0, 0, canvas.width, canvas.height);
+            const data = ImageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                const a = data[i + 3];
+
+                if (r < 10 && g < 10 && b < 10 && a > 128) {
+                    blackCount++;
+                }
+            }
+            console.log("There is " + blackCount + " black pixels");
+            return blackCount;
+        };
 </script>
 </html>
