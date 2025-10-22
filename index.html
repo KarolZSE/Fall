@@ -15,23 +15,21 @@
 
 </style>
 <body>
-    <img id="PumpkingImage" src="pumpkin.png" width="300px" height="auto">
-    <canvas id="eyes" style="z-index: 2;"></canvas>
+    <img id="PumpkingImage" src="pumpkin.png" width="600px" height="auto">
+    <canvas id="eyes" style="z-index: 2; width: 600px; height: auto;"></canvas>
 </body>
 <script>
+    // Fix for bad looking canvas:
+    // https://medium.com/wdstack/fixing-html5-2d-canvas-blur-8ebe27db07da
     const canvas = document.getElementById('eyes');
     const content = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
 
-    canvas.width = 300 * dpr;
-    canvas.height = 256.633 *  dpr;
-    canvas.style.width = '300px';
-    canvas.style.height = '256.633px';
+    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2); //get CSS width
+    let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
 
-    content.scale(dpr, dpr);
-
-    content.imageSmoothingEnabled = true;
-    content.imageSmoothingQuality = 'high';
+    canvas.setAttribute('height', style_height * dpr);
+    canvas.setAttribute('width', style_width * dpr);
 
     const randomEye = {
     0: 'eye_bored2.png',
@@ -54,16 +52,16 @@
     leftEye.src = x;
 
     leftEye.onload = () => {
-        content.drawImage(leftEye, 50, canvas.height / 3 / dpr, 81, 101);
+        content.drawImage(leftEye, 100, canvas.height / 3 / dpr, 162, 202);
         setTimeout(() => {
             const rightEye = new Image();
             rightEye.crossOrigin = 'anonymous';
             rightEye.src = x;
             rightEye.onload = () => {
                 content.save();
-                content.translate(300, 0);
+                content.translate(600, 0);
                 content.scale(-1, 1);
-                content.drawImage(rightEye, 50, canvas.height / 3 / dpr, 81, 101);
+                content.drawImage(rightEye, 100, canvas.height / 3 / dpr, 162, 202);
                 content.restore();
             }
         }, 10);
@@ -75,7 +73,7 @@
     let EndOfAnEra = Date.now() + 10000;
     let CountingPixels = 0;
 
-    const radius = 0.5;
+    const radius = 2;
     const size = radius * 2 + 1;
 
     canvas.addEventListener("mousemove", (e, timestamp) => {
@@ -112,7 +110,7 @@
                     CountingPixels += 1;
                     content.fillStyle = "rgb(255, 0, 0)";
                     content.beginPath();
-                    content.arc(x, y, 4, 0, Math.PI * 2);
+                    content.arc(x, y, 5, 0, Math.PI * 2);
                     content.fill();
                     break;
                 }
