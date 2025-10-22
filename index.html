@@ -52,6 +52,7 @@
     const leftEye = new Image();
     leftEye.crossOrigin = 'anonymous';
     leftEye.src = x;
+
     leftEye.onload = () => {
         content.drawImage(leftEye, 50, canvas.height / 3 / dpr, 81, 101);
         setTimeout(() => {
@@ -67,5 +68,59 @@
             }
         }, 10);
     }
+
+    let OldX = 0;
+    let OldY = 0;
+    let lastTime = Date.now();
+    let EndOfAnEra = Date.now() + 10000;
+    let CountingPixels = 0;
+
+    const radius = 0.5;
+    const size = radius * 2 + 1;
+
+    canvas.addEventListener("mousemove", (e, timestamp) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const now = Date.now();
+        const dt = (now - lastTime) / 1000;
+
+        // changed code reused from my old project
+            const canvasX = x * dpr;
+            const canvasY = y * dpr;
+
+            /*
+            if (EndOfAnEra - now <= 0) {
+                console.log(CountingPixels);
+                Glif.style.display = "none";
+                return;
+            }
+                */
+            
+
+            const pixel = content.getImageData(canvasX - radius, canvasY - radius, size, size).data;
+            
+            let DarkPixel = false;
+            for (let i = 0; i < pixel.length; i += 4) {
+                const r = pixel[i];
+                const g = pixel[i + 1];
+                const b = pixel[i + 2];
+                const a = pixel[i + 3];
+
+                if (r < 10 && g < 10 && b < 10 && a > 128) {
+                    CountingPixels += 1;
+                    content.fillStyle = "rgb(255, 0, 0)";
+                    content.beginPath();
+                    content.arc(x, y, 4, 0, Math.PI * 2);
+                    content.fill();
+                    break;
+                }
+            }
+
+            OldX = x;
+            OldY = y;
+            lastTime = now;
+        });
 </script>
 </html>
