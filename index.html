@@ -32,6 +32,14 @@
         border-right: 20px solid transparent;
         border-top: 490px solid rgb(90, 90, 90);
     }
+
+    #CupClientRequest {
+        width: 50px;
+        height: 0;
+        border-left: 5.26px solid transparent;
+        border-right: 5.26px solid transparent;
+        border-top: 128.27px solid rgb(90, 90, 90);
+    }
 </style>
 <body>
     <img id="PumpkingImage" src="pumpkin.png" width="600px" height="auto">
@@ -48,6 +56,7 @@
             <button onclick="DrinkMaking(-1, -1, -1)">Dark Chocolate</button>
         </div>
     </div>
+    <div id="CupClientRequest"></div>
 </body>
 <script>
     // Fix for bad looking canvas:
@@ -171,15 +180,47 @@
             return blackCount;
         };
 
+        let holdon = false;
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(b => {
+            b.addEventListener("mousedown", () => {
+                console.log('h1');
+                holdon = true;
+                DrinkMaking(1, 1, 1);
+            });
+            b.addEventListener("mouseup", () => {
+                console.log('h2');
+                holdon = false;
+            });
+        });
 
         const Cup = document.getElementById('inner-Cup');
+        let rc = gc = bc = 0;
+        // c - is for client
         let r = g = b = 90;
-        console.log(r, g, b);
         function DrinkMaking(rp = 0, gp = 0, bp = 0) {
-            r += rp * 5;
-            g += gp * 5;
-            b += bp * 5;
+            r += rp;
+            g += gp;
+            b += bp;
+            if (r == rc) {
+                console.log('RedISRight!');
+            }
             Cup.style.borderTop = `490px solid rgb(${r}, ${g}, ${b})`;
+            console.log(holdon);
+            setTimeout(() => {
+               if (holdon) DrinkMaking(rp, gp, bp); 
+            }, 1);
         }
+        
+        const CupClient = document.getElementById('CupClientRequest');
+        function ClientRequest() {
+            rc = Math.floor(Math.random() * 255);
+            gc = Math.floor(Math.random() * 255);
+            bc = Math.floor(Math.random() * 255);
+            CupClient.style.borderTop = `128.27px solid rgb(${rc}, ${gc}, ${bc})`;
+            console.log(rc, gc, bc);
+        }
+
+        ClientRequest();
 </script>
 </html>
