@@ -7,16 +7,47 @@
 </head>
 <style>
     #PumpkingImage, #eyes {
+        display: none;
         position: absolute; 
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
     }
 
+    #Cup {
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 500px solid rgb(0, 0, 0);
+        width: 200px;
+        height: 0px;
+    }
+
+    #inner-Cup {
+        position: relative;
+        top: -495px;
+        left: -15px;
+        width: 190px;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 490px solid rgb(90, 90, 90);
+    }
 </style>
 <body>
     <img id="PumpkingImage" src="pumpkin.png" width="600px" height="auto">
     <canvas id="eyes" style="z-index: 2; width: 600px; height: auto;"></canvas>
+    <div style="position: absolute; display: flex; flex-direction: column; left: 50%; transform: translate(-50%, 0); align-items: center;">
+        <div id="Cup"><div id="inner-Cup"></div></div>
+        <div style="padding: 10px;">
+            <button onclick="DrinkMaking(2, 1)">Pumpkin Orange</button>
+            <button onclick="DrinkMaking(2, 0, 1)">Magenda Cherry</button>
+            <button onclick="DrinkMaking(1, 2)">Lime Green</button>
+            <button onclick="DrinkMaking(1, 0, 2)">Hallowen Purple</button>
+            <button onclick="DrinkMaking(0, 2, 1)">Toxic Green</button>
+            <button onclick="DrinkMaking(0, 1, 2)">Sky Blue</button>
+            <button onclick="DrinkMaking(-1, -1, -1)">Dark Chocolate</button>
+        </div>
+    </div>
 </body>
 <script>
     // Fix for bad looking canvas:
@@ -139,5 +170,16 @@
             console.log("There is " + blackCount + " black pixels");
             return blackCount;
         };
+
+
+        const Cup = document.getElementById('inner-Cup');
+        let r = g = b = 90;
+        console.log(r, g, b);
+        function DrinkMaking(rp = 0, gp = 0, bp = 0) {
+            r += rp * 5;
+            g += gp * 5;
+            b += bp * 5;
+            Cup.style.borderTop = `490px solid rgb(${r}, ${g}, ${b})`;
+        }
 </script>
 </html>
