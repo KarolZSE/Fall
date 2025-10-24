@@ -48,9 +48,10 @@
         <div id="Cup"><div id="inner-Cup"></div></div>
         <h1 id="YourColor">1, 2, 3</h1>
         <div style="padding: 10px;">
-            <button id="Red"></button>
-            <button id="Green"></button>
-            <button id="Blue"></button>
+            <button id="1">Red</button>
+            <button id="0, 1">Green</button>
+            <button id="0, 0, 1">Blue</button>
+            <!-- Hard Mode -->
             <button id="2, 1, 0">Pumpkin Orange</button>
             <button id="2, 0, 1">Magenda Cherry</button>
             <button id="1, 2, 0">Lime Green</button>
@@ -61,6 +62,7 @@
         </div>
     </div>
     <div id="CupClientRequest"></div>
+    <p id="Hint">123</p>
 </body>
 <script>
     // Fix for bad looking canvas:
@@ -184,31 +186,29 @@
             return blackCount;
         };
 
-        let hold = '';
+        let holdTimeout = null;
+        let wait = 100;
         const buttons = document.querySelectorAll('button');
-        /*
-                    <button id="Red"></button>
-            <button id="Green"></button>
-            <button id="Blue"></button>
-            <button id="PO">Pumpkin Orange</button>
-            <button id="MC">Magenda Cherry</button>
-            <button id="LG">Lime Green</button>
-            <button id="HP">Hallowen Purple</button>
-            <button id="TG">Toxic Green</button>
-            <button id="SK">Sky Blue</button>
-            <button id="DC">Dark Chocolate</button>
-            */
-        
         buttons.forEach(b => {
-            b.addEventListener("mousedown", () => {
-                hold = setInterval(() => {
+            function press() {
                     const numbers = b.id.split(',').map(num => Number(num.trim()));
                     DrinkMaking(...numbers);
-                }, 100);
+                    
+                    wait = Math.max(20, wait - 3);
+                    holdTimeout = setTimeout(() => press(), wait);              
+                }
+
+            b.addEventListener("mousedown", () => {
+                if (!holdTimeout) {
+                    wait = 100;
+                    press();       
+                }
             });
 
             b.addEventListener("mouseup", () => {
-                clearInterval(hold);
+                clearTimeout(holdTimeout);
+                holdTimeout = null;
+                wait = 100;
             });
         });
 
@@ -225,6 +225,12 @@
             if (r == rc) {
                 console.log('RedISRight!');
             }
+            if (g == gc) {
+                console.log('GreenISRight!');
+            }
+            if (b == bc) {
+                console.log('BlueISRight!');
+            }
             YC.textContent = `${r}, ${g}, ${b}`;
             Cup.style.borderTop = `490px solid rgb(${r}, ${g}, ${b})`;
         }
@@ -234,6 +240,14 @@
             rc = Math.floor(Math.random() * 255);
             gc = Math.floor(Math.random() * 255);
             bc = Math.floor(Math.random() * 255);
+            temp = Math.floor(Math.random() * 3);
+            if (temp == 0) {
+                document.getElementById("Hint").textContent = `${rc}, ${'*'.repeat(String(gc).length)}, ${'*'.repeat(String(bc).length)}`;
+            } else if (temp == 1) {
+                document.getElementById("Hint").textContent = `${'*'.repeat(String(rc).length)}, ${gc}, ${'*'.repeat(String(bc).length)}`;    
+            } else {
+                document.getElementById("Hint").textContent = `${'*'.repeat(String(rc).length)}, ${'*'.repeat(String(gc).length)}, ${bc}`
+            }
             CupClient.style.borderTop = `128.27px solid rgb(${rc}, ${gc}, ${bc})`;
             console.log(rc, gc, bc);
         }
