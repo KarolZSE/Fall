@@ -56,10 +56,30 @@
         width: 120px;
         height: 120px;
     }
+
+    #Menu {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+        z-index: 2;
+        background-color: white;
+        text-align: center;
+    }
 </style>
 <body>
+    <div id="Menu">
+        <h1>Day <span>1</span></h1>
+        <h2>Welcome to your new cafe!</h2>
+        <p>Your employer asked you to carve out some pumpkins what do you think?</p>
+        <button id="DOIT">Do it</button>
+        <button>Quit the job</button>
+    </div>
     <img id="PumpkingImage" src="pumpkin.png" width="600px" height="auto">
-    <canvas id="eyes" style="z-index: 2; width: 600px; height: auto;"></canvas>
+    <canvas id="eyes" style="z-index: 2; width: 600px; height: 500;"></canvas>
     <div style="position: absolute; display: flex; flex-direction: column; left: 50%; transform: translate(-50%, 0); align-items: center; width: 90%;">
         <div id="Cup"><div id="inner-Cup"></div></div>
         <h1 id="YourColor">90, 90, 90</h1>
@@ -90,11 +110,17 @@
     const content = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
 
-    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-    let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2) || 500;
+    let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2) || 600;
 
     canvas.setAttribute('height', style_height * dpr);
     canvas.setAttribute('width', style_width * dpr);
+
+    document.getElementById("DOIT").onclick = function() {
+        document.getElementById('PumpkingImage').style.display = 'inline';
+        canvas.style.display = 'inline';
+        document.getElementById('Menu').style.display = 'none';
+    }
 
     const randomEye = {
     0: 'eye_bored2.png',
@@ -197,11 +223,16 @@
                 const b = data[i + 2];
                 const a = data[i + 3];
 
+                if (r > 10 && g > 10 && b > 10) {
+                    data[i + 3] = 0;
+                }
+
                 if (r < 10 && g < 10 && b < 10 && a > 128) {
                     blackCount++;
                 }
             }
             console.log("There is " + blackCount + " black pixels");
+            content.putImageData(ImageData, 0, 0);
             return blackCount;
         };
 
