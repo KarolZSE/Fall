@@ -46,14 +46,18 @@
     <canvas id="eyes" style="z-index: 2; width: 600px; height: auto;"></canvas>
     <div style="position: absolute; display: flex; flex-direction: column; left: 50%; transform: translate(-50%, 0); align-items: center;">
         <div id="Cup"><div id="inner-Cup"></div></div>
+        <h1 id="YourColor">1, 2, 3</h1>
         <div style="padding: 10px;">
-            <button onclick="DrinkMaking(2, 1)">Pumpkin Orange</button>
-            <button onclick="DrinkMaking(2, 0, 1)">Magenda Cherry</button>
-            <button onclick="DrinkMaking(1, 2)">Lime Green</button>
-            <button onclick="DrinkMaking(1, 0, 2)">Hallowen Purple</button>
-            <button onclick="DrinkMaking(0, 2, 1)">Toxic Green</button>
-            <button onclick="DrinkMaking(0, 1, 2)">Sky Blue</button>
-            <button onclick="DrinkMaking(-1, -1, -1)">Dark Chocolate</button>
+            <button id="Red"></button>
+            <button id="Green"></button>
+            <button id="Blue"></button>
+            <button id="2, 1, 0">Pumpkin Orange</button>
+            <button id="2, 0, 1">Magenda Cherry</button>
+            <button id="1, 2, 0">Lime Green</button>
+            <button id="1, 0, 2">Hallowen Purple</button>
+            <button id="0, 2, 1">Toxic Green</button>
+            <button id="0, 1, 2">Sky Blue</button>
+            <button id="-1, -1, -1">Dark Chocolate</button>
         </div>
     </div>
     <div id="CupClientRequest"></div>
@@ -180,36 +184,49 @@
             return blackCount;
         };
 
-        let holdon = false;
+        let hold = '';
         const buttons = document.querySelectorAll('button');
+        /*
+                    <button id="Red"></button>
+            <button id="Green"></button>
+            <button id="Blue"></button>
+            <button id="PO">Pumpkin Orange</button>
+            <button id="MC">Magenda Cherry</button>
+            <button id="LG">Lime Green</button>
+            <button id="HP">Hallowen Purple</button>
+            <button id="TG">Toxic Green</button>
+            <button id="SK">Sky Blue</button>
+            <button id="DC">Dark Chocolate</button>
+            */
+        
         buttons.forEach(b => {
             b.addEventListener("mousedown", () => {
-                console.log('h1');
-                holdon = true;
-                DrinkMaking(1, 1, 1);
+                hold = setInterval(() => {
+                    const numbers = b.id.split(',').map(num => Number(num.trim()));
+                    DrinkMaking(...numbers);
+                }, 100);
             });
+
             b.addEventListener("mouseup", () => {
-                console.log('h2');
-                holdon = false;
+                clearInterval(hold);
             });
         });
 
         const Cup = document.getElementById('inner-Cup');
+        const YC = document.getElementById('YourColor');
         let rc = gc = bc = 0;
         // c - is for client
         let r = g = b = 90;
         function DrinkMaking(rp = 0, gp = 0, bp = 0) {
+            console.log(rp, gp, bp);
             r += rp;
             g += gp;
             b += bp;
             if (r == rc) {
                 console.log('RedISRight!');
             }
+            YC.textContent = `${r}, ${g}, ${b}`;
             Cup.style.borderTop = `490px solid rgb(${r}, ${g}, ${b})`;
-            console.log(holdon);
-            setTimeout(() => {
-               if (holdon) DrinkMaking(rp, gp, bp); 
-            }, 1);
         }
         
         const CupClient = document.getElementById('CupClientRequest');
