@@ -15,27 +15,28 @@
     }
 
     #Cup {
-        display: none;
-        border-left: 20px solid transparent;
-        border-right: 20px solid transparent;
-        border-top: 500px solid rgb(0, 0, 0);
+        position: relative;
+        left: 96px;
+        top: 300px;
+        border-left: 16px solid transparent;
+        border-right: 16px solid transparent;
+        border-top: 400px solid rgb(0, 0, 0);
         width: 200px;
         height: 0px;
     }
 
     #inner-Cup {
         position: relative;
-        top: -495px;
-        left: -15px;
+        top: -395px;
+        left: -10px;
         width: 190px;
         height: 0;
-        border-left: 20px solid transparent;
-        border-right: 20px solid transparent;
-        border-top: 490px solid rgb(90, 90, 90);
+        border-left: 16px solid transparent;
+        border-right: 16px solid transparent;
+        border-top: 390px solid rgb(90, 90, 90);
     }
 
-    #CupClientOut { 
-        display: none;       
+    #CupClientOut {       
         width: 50px;
         height: 0;
         border-left: 5px solid transparent;
@@ -55,8 +56,8 @@
     }
 
     #Flavor button {
-        width: 120px;
-        height: 120px;
+        width: 60px;
+        height: 60px;
     }
 
     #Menu {
@@ -71,6 +72,27 @@
         background-color: white;
         text-align: center;
     }
+
+    #Flavor {
+        position: relative;
+        top: 90px;
+        left: 119px;
+        padding: 0px; 
+        font-size: 32px; 
+        width: 180px; 
+        display: grid; 
+        grid-template-columns: auto auto auto auto;
+    }
+
+    #Machine {
+        background: url('obraz.png');
+        background-size: cover;
+        height: 942px;
+        width: 418px;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
 </style>
 <body>
     <div id="Menu">
@@ -82,23 +104,24 @@
     </div>
     <img id="PumpkingImage" src="pumpkin.png" width="600px" height="auto">
     <canvas id="eyes" style="z-index: 2; width: 600px; height: 500;"></canvas>
-    <div style="position: absolute; display: flex; flex-direction: column; left: 50%; transform: translate(-50%, 0); align-items: center; width: 90%;">
-        <div id="Cup"><div id="inner-Cup"></div></div>
         <h1 id="YourColor">90, 90, 90</h1>
-        <div id="Flavor" style="padding: 0px; font-size: 32px; display: none;">
-            <button id="1">Red</button>
-            <button id="0, 1">Green</button>
-            <button id="0, 0, 1">Blue</button>
-            <!-- Hard Mode -->
-            <button id="2, 1, 0">Pumpkin Orange <br> (2, 1, 0)</button>
-            <button id="2, 0, 1">Magenda Cherry <br> (2, 0, 1)</button>
-            <button id="1, 2, 0">Lime Green <br> (1, 2, 0)</button>
-            <button id="1, 0, 2">Hallowen Purple <br> (1, 0, 2)</button>
-            <button id="0, 2, 1">Toxic Green <br>(0, 2, 1)</button>
-            <button id="0, 1, 2">Sky Blue <br> (0, 1, 2)</button>
-            <button id="-1, -1, -1">Dark Chocolate <br> (-1, -1, -1)</button>
+        <div id='Machine'>
+            <div id="Flavor">
+                <button id="1">Red</button>
+                <button id="0, 1">Green</button>
+                <button id="0, 0, 1">Blue</button>
+                <!-- Hard Mode -->
+                <button id="2, 1, 0">Pumpkin Orange <br> (2, 1, 0)</button>
+                <button id="2, 0, 1">Magenda Cherry <br> (2, 0, 1)</button>
+                <button id="1, 2, 0">Lime Green <br> (1, 2, 0)</button>
+                <button id="1, 0, 2">Hallowen Purple <br> (1, 0, 2)</button>
+                <button id="0, 2, 1">Toxic Green <br>(0, 2, 1)</button>
+                <button id="0, 1, 2">Sky Blue <br> (0, 1, 2)</button>
+                <button id="-1, -1, -1">Dark Chocolate <br> (-1, -1, -1)</button>
+            </div>
+            <div id="Cup"><div id="inner-Cup"></div></div>
+            <button id="CheckForRightness">Check for rightness</button>
         </div>
-        <button id="CheckForRightness">Check for rightness</button>
     </div>
     <div style="border: 1px solid black; width: fit-content; display: flex; flex-direction: column; align-items: center;">
         <p>Hi! I want my drink to be this color (<span id="Hint">123</span>) can you do it?</p>
@@ -120,8 +143,10 @@
     canvas.setAttribute('width', style_width * dpr);
 
     document.getElementById("DOIT").onclick = function() {
+        /*
         PumpkinImg.style.display = 'inline';
         canvas.style.display = 'inline';
+        */
         document.getElementById('Menu').style.display = 'none';
     }
 
@@ -315,7 +340,7 @@
             g += gp;
             b += bp;
             YC.textContent = `${r}, ${g}, ${b}`;
-            Cup.style.borderTop = `490px solid rgb(${r}, ${g}, ${b})`;
+            Cup.style.borderTop = `390px solid rgb(${r}, ${g}, ${b})`;
         }
         
         const CupClient = document.getElementById('CupClientRequest');
