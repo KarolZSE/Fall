@@ -150,12 +150,14 @@
     }
 </style>
 <body>
+    <h1 style="position: absolute; left: 50%; transform: translate(-50%);">Average customer satisfaction: <span id="ACS">?</span>%</h1>
     <div id="Menu">
-        <h1>Day <span>1</span></h1>
+        <h1>Small Cafe</h1>
         <h2>Welcome to your new cafe!</h2>
+        <p>Step into the shoes of a barista and serve colorful drinks to your customers!</p>
         <p>It's fall, soon the Hallowen will come. Maybe it's time to carve a pumpkin, what do you thing?</p>
         <p><b>To carve the pumpkin you have to left-click on the red areas, as you do they will turn black. Once you covered more then 95% of the red color, the pumpkin will be fully carved.</b></p>
-        <p>PS. Don't click the hard mode, unless you want to make the game more challenging, if you want to learn more refer to the readme</p>
+        <p>PS. Don't click the hard mode, unless you want to make the game more challenging, <b>if you want to learn the rules of the game and more please refer to the readme.</b></p>
         <button id="DOIT">Do it (starts the game)</button>
         <button id="HardMode">Hard Mode</button>
     </div>
@@ -218,7 +220,6 @@
     document.getElementById("HardMode").onclick = function() {
         document.querySelectorAll('.easy').forEach(e => {
             e.style.display = 'none';
-            console.log('h');
         })
 
         document.querySelectorAll('.hard').forEach(e => {
@@ -354,9 +355,7 @@
                 const b = pixel[i + 2];
                 const a = pixel[i + 3];
 
-                console.log('h');
                 if (r < 255 && g < 10 && b < 10 && a > 128) {
-                    console.log('h2');
                     content.fillStyle = "rgb(0, 0, 0)";
                     content.beginPath();
                     content.arc(x, y, 10, 0, Math.PI * 2);
@@ -443,7 +442,6 @@
         // c - is for client
         let r = g = b = 90;
         function DrinkMaking(rp = 0, gp = 0, bp = 0) {
-            console.log(rp, gp, bp);
             r += rp;
             g += gp;
             b += bp;
@@ -467,7 +465,6 @@
             } else {
                 document.getElementById("Hint").textContent = `${'*'.repeat(String(rc).length)}, ${'*'.repeat(String(gc).length)}, ${bc}`
             }
-            console.log(rc, gc, bc);
         }
 
         ClientRequest();
@@ -545,12 +542,14 @@
             );
         }
 
+        let ACSatisfaction = 0;
+        let ACSCount = 0;
         function resetCupPosition() {
             CupElement.style.position = cupOriginalPosition.position;
             CupElement.style.left = cupOriginalPosition.left;
             CupElement.style.top = cupOriginalPosition.top;
             CupElement.style.transform = '';
-
+            r = g = b = 90;
             DrinkMaking();
         }
 
@@ -565,7 +564,6 @@
 
             const maxDistance = Math.sqrt(3 * 255 ** 2);
             const procent = (1 - distance / maxDistance) * 100;
-            console.log(procent.toFixed(2));
             if (procent >= 95) {
                 TextBubble.innerHTML = `<span style='padding: 10px;'> Great Job! It looks ${procent.toFixed(2)}% like the drink I ordered! </span> `;
             } else if (procent >= 80) {
@@ -573,6 +571,9 @@
             } else {
                 TextBubble.innerHTML = `<span style='padding: 10px;'> Is this a joke? This drinks look only ${procent.toFixed(2)}% like the drink I ordered! </span>`;
             }
+            ACSatisfaction += Number(procent.toFixed(2));
+            ACSCount++;
+            document.getElementById('ACS').textContent = (ACSatisfaction / ACSCount).toFixed(2);
             setTimeout(() => {
                 TextBubble.innerHTML = OriginalTextBubble;
                 ClientRequest();
