@@ -37,7 +37,7 @@ PS. I tried to follow the theme with the pumpkin for the hallowen that happens i
 PPS. Do to many rewrites of some function there maybe some legacy code that does nothing, sorry for that bloatwere.
 
 # Attribution:
-Pumpkin - https://pixabay.com/vectors/calabash-squash-cucurbit-gourd-151425/
-Pumpking Eyes - https://tjloudon.itch.io/cartoon-eyes-pack
-NPCs - https://ddant1100.itch.io/ttrpg-legend-too-many-characters
-Popup - CraftPix.net 2D Game Assets https://opengameart.org/content/4-direction-npc-characters
+- Pumpkin - https://pixabay.com/vectors/calabash-squash-cucurbit-gourd-151425/
+- Pumpking Eyes - https://tjloudon.itch.io/cartoon-eyes-pack
+- NPCs - https://ddant1100.itch.io/ttrpg-legend-too-many-characters
+- Popup - CraftPix.net 2D Game Assets https://opengameart.org/content/4-direction-npc-characters
