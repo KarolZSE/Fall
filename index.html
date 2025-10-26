@@ -21,7 +21,7 @@
     #Cup {
         position: relative;
         left: 96px;
-        top: 300px;
+        top: 220px;
         border-left: 16px solid transparent;
         border-right: 16px solid transparent;
         border-top: 400px solid rgb(0, 0, 0);
@@ -74,6 +74,7 @@
         height: 500px;
         border: 1px solid black;
         z-index: 2;
+        padding: 10px;
         background-color: white;
         text-align: center;
     }
@@ -85,6 +86,7 @@
         padding: 0px; 
         font-size: 32px; 
         width: 270px; 
+        height: 180px;
         display: grid; 
         grid-template-columns: auto auto auto auto;
     }
@@ -113,16 +115,8 @@
         overflow: hidden;
     }
 
-    #Table {
-        position: relative; 
-        width: 100%; 
-        top: -200px; 
-        height: 100px; 
-        border: 1px solid rebeccapurple;
-        background-color: aqua;
-    }
-
     #TextBubble {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI';
         position: relative;
         top: 10px;
         left: -50px;
@@ -138,15 +132,15 @@
 
     #CustomerIMG {
         position: relative;
-        left: 100px;
+        left: 300px;
         width: 819px;
         height: 819px;
-        background-image: url('Full Art/deity_man_01.png');
+        background-image: url('Full Art/ (2).png');
         background-size: 819px 1223px;
     }
     #YourColor {
         position: relative;
-        top: 200px;
+        top: 125px;
         left: 137.5px;
         color: white;
     }
@@ -159,15 +153,17 @@
     <div id="Menu">
         <h1>Day <span>1</span></h1>
         <h2>Welcome to your new cafe!</h2>
-        <p>Your employer asked you to carve out some pumpkins what do you think?</p>
-        <button id="DOIT">Do it</button>
-        <button>Quit the job</button>
+        <p>It's fall, soon the Hallowen will come. Maybe it's time to carve a pumpkin, what do you thing?</p>
+        <p><b>To carve the pumpkin you have to left-click on the red areas, as you do they will turn black. Once you covered more then 95% of the red color, the pumpkin will be fully carved.</b></p>
+        <p>PS. Don't click the hard mode, unless you want to make the game more challenging, if you want to learn more refer to the readme</p>
+        <button id="DOIT">Do it (starts the game)</button>
+        <button id="HardMode">Hard Mode</button>
     </div>
     <div id="Customers">
         <div style="display: flex;">
             <div id="CustomerIMG">                
                 <div id="TextBubble">
-                    <p>What a nice pumpkin :) Can I get a</p>
+                    <p style="padding-left: 10px; padding-top: 10px;">What a nice pumpkin :) Can I get a</p>
                     <div style="display: flex; gap: 5px; justify-content: center;">
                         <div id="CupClientOut"><div id="CupClientRequest"></div></div>
                         <h1>?</h1>
@@ -217,6 +213,17 @@
         PumpkinImg.style.display = 'inline';
         canvas.style.display = 'inline';
         document.getElementById('Menu').style.display = 'none';
+    }
+
+    document.getElementById("HardMode").onclick = function() {
+        document.querySelectorAll('.easy').forEach(e => {
+            e.style.display = 'none';
+            console.log('h');
+        })
+
+        document.querySelectorAll('.hard').forEach(e => {
+            e.style.display = 'inline';
+        })
     }
 
     const randomEye = {
@@ -309,14 +316,14 @@
                 PumpkinImg.style.left = '20px';
                 PumpkinImg.style.bottom = '0px';
                 PumpkinImg.style.top = 'auto';
-                PumpkinImg.style.transform = 'scale(0.3)';
+                PumpkinImg.style.transform = 'scale(0.5)';
                 PumpkinImg.style.transformOrigin = 'left bottom';
 
                 canvas.style.position = 'absolute';
                 canvas.style.left = '20px';
                 canvas.style.bottom = '0px';
                 canvas.style.top = 'auto';
-                canvas.style.transform = 'scale(0.3)';
+                canvas.style.transform = 'scale(0.5)';
                 canvas.style.transformOrigin = 'left bottom';
 
                 pumpkinrun = false;
@@ -444,12 +451,15 @@
             Cup.style.borderTop = `390px solid rgb(${r}, ${g}, ${b})`;
         }
         
-        const CupClient = document.getElementById('CupClientRequest');
+        const CustomerIMG = document.getElementById('CustomerIMG');
         function ClientRequest() {
+            CustomerIMG.style.backgroundImage = `url('Full Art/ (${Math.floor(Math.random() * 99) + 1}).png')`;
             rc = Math.floor(Math.random() * 255);
             gc = Math.floor(Math.random() * 255);
             bc = Math.floor(Math.random() * 255);
             temp = Math.floor(Math.random() * 3);
+            const CupClient = document.getElementById('CupClientRequest');
+            CupClient.style.borderTop = `122.5px solid rgb(${rc}, ${gc}, ${bc})`;
             if (temp == 0) {
                 document.getElementById("Hint").textContent = `${rc}, ${'*'.repeat(String(gc).length)}, ${'*'.repeat(String(bc).length)}`;
             } else if (temp == 1) {
@@ -457,14 +467,12 @@
             } else {
                 document.getElementById("Hint").textContent = `${'*'.repeat(String(rc).length)}, ${'*'.repeat(String(gc).length)}, ${bc}`
             }
-            CupClient.style.borderTop = `122.5px solid rgb(${rc}, ${gc}, ${bc})`;
             console.log(rc, gc, bc);
         }
 
         ClientRequest();
 
         const CupElement = document.getElementById('Cup');
-        const CustomerIMG = document.getElementById('CustomerIMG');
         let isDragging = false;
         let startX, startY;
         let cupOriginalParent = CupElement.parentElement;
@@ -559,11 +567,11 @@
             const procent = (1 - distance / maxDistance) * 100;
             console.log(procent.toFixed(2));
             if (procent >= 95) {
-                TextBubble.innerHTML = `Great Job! It looks ${procent.toFixed(2)}% like the drink I ordered!`;
+                TextBubble.innerHTML = `<span style='padding: 10px;'> Great Job! It looks ${procent.toFixed(2)}% like the drink I ordered! </span> `;
             } else if (procent >= 80) {
-                TextBubble.innerHTML = `Acceptable! It looks ${procent.toFixed(2)}% like the drink I ordered!`;
+                TextBubble.innerHTML = `<span style='padding: 10px;'> Acceptable! It looks ${procent.toFixed(2)}% like the drink I ordered! </span>`;
             } else {
-                TextBubble.innerHTML = `Is this a joke? This drinks look only ${procent.toFixed(2)}% like the drink I ordered!`;
+                TextBubble.innerHTML = `<span style='padding: 10px;'> Is this a joke? This drinks look only ${procent.toFixed(2)}% like the drink I ordered! </span>`;
             }
             setTimeout(() => {
                 TextBubble.innerHTML = OriginalTextBubble;
