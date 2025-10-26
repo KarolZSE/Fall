@@ -9,6 +9,7 @@
     body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI';
     }
+
     #PumpkingImage, #eyes {
         display: none;
         position: absolute; 
@@ -60,8 +61,8 @@
     }
 
     #Flavor button {
-        width: 60px;
-        height: 60px;
+        width: 90px;
+        height: 90px;
     }
 
     #Menu {
@@ -80,26 +81,28 @@
     #Flavor {
         position: relative;
         top: 90px;
-        left: 119px;
+        left: 37px;
         padding: 0px; 
         font-size: 32px; 
-        width: 180px; 
+        width: 270px; 
         display: grid; 
-        grid-template-columns: auto auto auto;
+        grid-template-columns: auto auto auto auto;
     }
 
     #Machine {
+        zoom: 70%;
         background: url('obraz.png');
         background-size: cover;
         height: 942px;
         width: 418px;
         position: absolute;
         top: 50%;
-        left: 10px;
+        left: 100px;
         transform: translate(0, -50%);
     }
 
     #Customers {
+        zoom: 70%;
         width: 1000px;
         height: 600px;
         border: 1px solid black;
@@ -189,7 +192,7 @@
                 <button class='hard' id="1, 0, 2">Hallowen Purple <br> (1, 0, 2)</button>
                 <button class='hard' id="0, 2, 1">Toxic Green <br>(0, 2, 1)</button>
                 <button class='hard' id="0, 1, 2">Sky Blue <br> (0, 1, 2)</button>
-                <button id="-1, -1, -1">Dark Chocolate <br> (-1, -1, -1)</button>
+                <button id="-1, -1, -1">Dark Chocolate <br></button>
             </div>
             <h1 id="YourColor">90, 90, 90</h1>
             <div id="Cup"><div id="inner-Cup"></div></div>
@@ -293,13 +296,29 @@
             }
 
             BlackCountAfter = CompareBlackPixels();
+            const Customers = document.getElementById('Customers');
+            const CustomerRect = Customers.getBoundingClientRect();
+
             if ((BlackCountAfter / BlackCountStart) * 100 <= 5) {
                 temp = (now - EndOfAnEra) / 1000;
                 
-                PumpkinImg.style.transform = 'translate(-50%, -50%) scale(0.5)';
-                canvas.style.transform = 'translate(-50%, -50%) scale(0.5)';
-                PumpkinImg.style.top = '67.5%';
-                canvas.style.top = '67.5%';
+                Customers.appendChild(PumpkinImg);
+                Customers.appendChild(canvas);
+
+                PumpkinImg.style.position = 'absolute';
+                PumpkinImg.style.left = '20px';
+                PumpkinImg.style.bottom = '0px';
+                PumpkinImg.style.top = 'auto';
+                PumpkinImg.style.transform = 'scale(0.3)';
+                PumpkinImg.style.transformOrigin = 'left bottom';
+
+                canvas.style.position = 'absolute';
+                canvas.style.left = '20px';
+                canvas.style.bottom = '0px';
+                canvas.style.top = 'auto';
+                canvas.style.transform = 'scale(0.3)';
+                canvas.style.transformOrigin = 'left bottom';
+
                 pumpkinrun = false;
 
                 const ImageData = content.getImageData(0, 0, canvas.width, canvas.height);
