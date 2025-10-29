@@ -1,4 +1,5 @@
 # For the Stonemason
+Thank you for your time reviewing this and my previous project.
 I made some small improvements, it should work without any issues now. However, if the problem with the pumpkin continues or it doesn’t disappear after you filled in all the red color, please use the emergency button below (it skips the minigame).
 
 # Fall
