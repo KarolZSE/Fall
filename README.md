@@ -1,3 +1,6 @@
+# For the Stonemason
+I made some small improvements, it should work without any issues now. However, if the problem with the pumpkin continues or it doesn’t disappear after you filled in all the red color, please use the emergency button below (it skips the minigame).
+
 # Fall
 Step into the shoes of a barista and serve colorful drinks to your customers!
 
