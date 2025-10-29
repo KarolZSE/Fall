@@ -9,7 +9,7 @@ Step into the shoes of a barista and serve colorful drinks to your customers!
 - Your first task is to carve out a pumpkin, to carve the pumpkin you have to left-click on the red areas, as you do they will turn black. Once you covered more then 95% of the red color, the pumpkin will be fully carved.
 
 **Main Game:**
-- Customers will asks you for a drink of a specific color.
+- Customers will asks you for a drink of a specific color (they will also give you a hint on how much mililiters of juice you have to add).
 - Your job is to recreate the color as close as possible, you can do that by clicking the buttons on the **drink maker** (the longer you hold a button the faster the drink dispenses):
     - **Red**: Adds a 1ml of strawberry juice to the drink.
     - **Green**: Adds a 1ml of lime juice to the drink.
