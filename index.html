@@ -590,7 +590,7 @@
             const maxDistance = Math.sqrt(3 * 255 ** 2);
             const procent = (1 - distance / maxDistance) * 100;
             if (procent >= 95) {
-                TextBubble.innerHTML = `<span style='padding: 10px;'> Great Job! It looks ${procent.toFixed(2)}% like the drink I ordered! </span> `;
+                TextBubble.innerHTML = `<span style='padding: 10px;'> Great Job! <br>It looks ${procent.toFixed(2)}% like the drink I ordered! </span> `;
             } else if (procent >= 80) {
                 TextBubble.innerHTML = `<span style='padding: 10px;'> Acceptable! It looks ${procent.toFixed(2)}% like the drink I ordered! </span>`;
             } else {
